@@ -1,70 +1,96 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}HomeEstate{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Объявления о домах{% endblock %}</title>
+    <!-- Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --main-color: #1c315f;
-            --accent-color: #4a90de;
-            --bg-light: #f8f9fa;
-        }
-
-        body {
-            background-color: var(--bg-light);
-            color: #333;
-        }
-
-        .navbar, footer {
-            background-color: var(--main-color);
-        }
-
-        .navbar a, footer {
-            color: white !important;
-        }
-
-        .btn-accent {
-            background-color: var(--accent-color);
-            color: white;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark">
+
+
+    
+<!-- Навбар -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">🏠 HomeEstate</a>
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+        <a class="navbar-brand" href="{% url 'home' %}">Главная</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Переключатель навигации">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                {% if user.is_authenticated %}
-                    {% if user.userprofile.role == 'seller' %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'add_property' %}">Добавить объект</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'my_properties' %}">Мои объявления</a></li>
-                    {% elif user.userprofile.role == 'buyer' %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'my_requests' %}">Мои заявки</a></li>
-                    {% endif %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Выйти</a></li>
-                {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Вход</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
-                {% endif %}
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">О нас</a>
+                </li>
             </ul>
+            <div class="d-flex align-items-center gap-2">
+                {% if user.is_authenticated %}
+                    <span class="navbar-text text-white me-2">{{ user.username }}</span>
+
+                    {% if user.userprofile.role == 'seller' %}
+                        <a href="{% url 'my_properties' %}" class="btn btn-outline-warning btn-sm">Мои объявления</a>
+                        <a href="{% url 'add_property' %}" class="btn btn-warning btn-sm">Добавить дом</a>
+                    {% elif user.userprofile.role == 'buyer' %}
+                        <a href="{% url 'my_requests' %}" class="btn btn-outline-warning btn-sm">Мои заявки</a>
+                    {% endif %}
+
+                    {% if user.is_superuser %}
+                        <a href="/admin/" class="btn btn-outline-light btn-sm">Админка</a>
+                    {% endif %}
+
+                    <a href="{% url 'logout' %}" class="btn btn-warning btn-sm">Выйти</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-warning btn-sm me-2">Вход</a>
+                    <a href="{% url 'reg' %}" class="btn btn-warning btn-sm">Регистрация</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </nav>
 
-<div class="container mt-4">
-    {% block content %}{% endblock %}
-</div>
 
-<footer class="mt-5 py-3 text-center">
-    <div class="container">
-        <span>&copy; {{ now.year }} HomeEstate — Объявления о недвижимости</span>
+
+
+{% block content %}{% endblock %}
+
+
+<!-- Футер -->
+<footer class="bg-dark text-white py-4 mt-5">
+  <div class="container">
+    <div class="row">
+
+      <!-- О сайте -->
+      <div class="col-md-6 mb-3">
+        <h5>Объявления</h5>
+        <p>Лучшие предложения по покупке и аренде домов. Быстро, удобно и надежно.</p>
+      </div>
+
+      <!-- Навигация -->
+      <div class="col-md-6 mb-3">
+        <h5>Навигация</h5>
+        <ul class="list-unstyled">
+          <li><a href="/" class="text-white text-decoration-none">Главная</a></li>
+          <li><a href="{% url 'my_properties' %}" class="text-white text-decoration-none">Объявления</a></li>
+          {% if user.is_authenticated and user.userprofile.role == 'seller' %}
+            <li><a href="{% url 'my_properties' %}" class="text-white text-decoration-none">Мои объявления</a></li>
+            <li><a href="{% url 'add_property' %}" class="text-white text-decoration-none">Добавить дом</a></li>
+          {% endif %}
+          {% if user.is_authenticated and user.userprofile.role == 'buyer' %}
+            <li><a href="{% url 'my_requests' %}" class="text-white text-decoration-none">Мои заявки</a></li>
+          {% endif %}
+          <li><a href="{% url 'about' %}" class="text-white text-decoration-none">О нас</a></li>
+        </ul>
+      </div>
+
     </div>
+    <hr class="border-light">
+    <p class="text-center mb-0">&copy; 2025 Объявления. Все права защищены.</p>
+  </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

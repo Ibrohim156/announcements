@@ -1,12 +1,100 @@
-{% extends 'sign/base.html' %}
+{% extends 'base.html' %}
 
-{% block title %}Добавить объект{% endblock %}
+{% block title %}Добавить объявление{% endblock %}
 
 {% block content %}
-<h2>Добавить объявление</h2>
-<form method="post" enctype="multipart/form-data" class="mt-3">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-accent">Сохранить</button>
-</form>
+<section class="flex justify-center px-4 py-12">
+  <div class="bg-[#B9B4C7] p-6 rounded-lg shadow-md w-full max-w-lg">
+    <h2 class="text-dark text-lg font-medium mb-4 text-center">Добавить объявление</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- Тип сделки -->
+      <div class="mb-4">
+        <label for="{{ form.deal_type.id_for_label }}" class="text-sm text-dark block mb-1">Тип сделки</label>
+        {{ form.deal_type }}
+        {% if form.deal_type.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.deal_type.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Количество комнат -->
+      <div class="mb-4">
+        <label for="{{ form.rooms.id_for_label }}" class="text-sm text-dark block mb-1">Количество комнат</label>
+        {{ form.rooms }}
+        {% if form.rooms.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.rooms.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Площадь -->
+      <div class="mb-4">
+        <label for="{{ form.area.id_for_label }}" class="text-sm text-dark block mb-1">Площадь (м²)</label>
+        {{ form.area }}
+        {% if form.area.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.area.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Цена -->
+      <div class="mb-4">
+        <label for="{{ form.price.id_for_label }}" class="text-sm text-dark block mb-1">Цена ($)</label>
+        {{ form.price }}
+        {% if form.price.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.price.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Адрес -->
+      <div class="mb-4">
+        <label for="{{ form.address.id_for_label }}" class="text-sm text-dark block mb-1">Адрес</label>
+        {{ form.address }}
+        {% if form.address.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.address.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Описание -->
+      <div class="mb-4">
+        <p>Описание</p>
+        <label for="{{ form.description.id_for_label }}" class="text-sm text-dark block mb-1"></label>
+        {{ form.description }}
+        {% if form.description.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.description.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Изображение 1 -->
+      <div class="mb-4">
+        <label for="{{ form.image1.id_for_label }}" class="text-sm text-dark block mb-1">Изображение 1</label>
+        {{ form.image1 }}
+        {% if form.image1.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.image1.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Изображение 2 -->
+      <div class="mb-4">
+        <label for="{{ form.image2.id_for_label }}" class="text-sm text-dark block mb-1">Изображение 2</label>
+        {{ form.image2 }}
+        {% if form.image2.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.image2.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Изображение 3 -->
+      <div class="mb-4">
+        <label for="{{ form.image3.id_for_label }}" class="text-sm text-dark block mb-1">Изображение 3</label>
+        {{ form.image3 }}
+        {% if form.image3.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ form.image3.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="bg-[#526D82] hover:bg-[#27374D] text-dark py-2 px-4 rounded w-full">
+        Сохранить
+      </button>
+    </form>
+  </div>
+</section>
 {% endblock %}

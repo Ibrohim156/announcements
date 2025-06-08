@@ -28,7 +28,7 @@ class PropertyFilterForm(forms.Form):
         required=False
     )
     rooms = forms.ChoiceField(
-        choices=[('', 'Комнат'), *( (i, f'{i} комн.') for i in range(1, 6) )],
+        choices=[('', 'Комнат'), *( (i, f'{i} комн.') for i in range(1, 10) )],
         required=False
     )
 

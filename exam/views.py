@@ -128,5 +128,33 @@ def property_detail(request, pk):
 
 @login_required
 def my_requests(request):
-    requests = LeaveRequest.objects.filter(buyer=request.user)
-    return render(request, 'my_requests.html', {'requests': requests})
+    requests = Request.objects.filter(buyer=request.user)
+    return render(request, 'property/my_requests.html', {'requests': requests})
+
+
+
+def property_list(request):
+    properties = Property.objects.all()
+    deal_type = request.GET.get('deal_type')
+    rooms = request.GET.get('rooms')
+
+    if deal_type:
+        properties = properties.filter(deal_type=deal_type)
+
+    if rooms:
+        if rooms == "4":
+            properties = properties.filter(rooms__gte=4)
+        else:
+            properties = properties.filter(rooms=rooms)
+
+    context = {
+        'properties': properties,
+        'selected_deal_type': deal_type,
+        'selected_rooms': rooms,
+    }
+    return render(request, 'base.html', context)
+
+
+def about(request):
+    return render(request, 'about.html')
+

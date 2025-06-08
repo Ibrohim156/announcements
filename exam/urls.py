@@ -12,6 +12,8 @@ urlpatterns = [
     path('property/<int:pk>/', views.property_detail, name='property_detail'),
     path('property/<int:property_id>/leave-request/', views.leave_request, name='leave_request'),
     path('my-requests/', views.my_requests, name='my_requests'),
+     path('', views.property_list, name='property_list'),
+     path('about/', views.about, name='about'),
 
 
 ]

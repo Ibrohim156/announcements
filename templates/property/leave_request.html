@@ -1,4 +1,4 @@
-{% extends 'sign/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Оставить заявку{% endblock %}
 
@@ -7,6 +7,9 @@
 <form method="post" class="mt-3">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-accent">Отправить заявку</button>
+    <button type="submit" class="btn btn-warning px-4 py-2 fw-semibold shadow-sm">
+  Отправить заявку
+</button>
+
 </form>
 {% endblock %}
