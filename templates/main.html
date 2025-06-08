@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">🏘 Доступные объекты недвижимости</h2>
+
+<form method="get" class="row mb-4">
+    <div class="col-md-3">
+        {{ form.deal_type.label_tag }}
+        {{ form.deal_type }}
+    </div>
+    <div class="col-md-3">
+        {{ form.rooms.label_tag }}
+        {{ form.rooms }}
+    </div>
+    <div class="col-md-3 align-self-end">
+        <button type="submit" class="btn btn-accent">Фильтровать</button>
+    </div>
+</form>
+
+<div class="row">
+    {% for property in properties %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            {% if property.image1 %}
+              <img src="{{ property.image1.url }}" class="card-img-top" alt="Фото">
+              {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ property.address }}</h5>
+                <p class="card-text">{{ property.get_deal_type_display }} — {{ property.rooms }} комн.</p>
+                <p class="card-text fw-bold">{{ property.price }} сум</p>
+                <a href="{% url 'property_detail' property.id %}" class="btn btn-sm btn-outline-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Нет объектов по вашему запросу.</p>
+    {% endfor %}
+</div>
+{% endblock %}

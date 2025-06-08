@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои заявки{% endblock %}
+
+{% block content %}
+<h2>Мои заявки</h2>
+<div class="row">
+    {% for request in requests %}
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            {% if request.property.image %}
+            <img src="{{ request.property.image.url }}" class="card-img-top" alt="Фото">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ request.property.address }}</h5>
+                <p class="card-text">Тип: {{ request.property.get_deal_type_display }}</p>
+                <p class="card-text">Цена: {{ request.property.price }} сум</p>
+                <p class="card-text">Дата заявки: {{ request.created_at|date:"d.m.Y H:i" }}</p>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Вы еще не оставляли заявок.</p>
+    {% endfor %}
+</div>
+{% endblock %}

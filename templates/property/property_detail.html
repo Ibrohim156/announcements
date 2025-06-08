@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Информация о доме{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% if property.image1 %}
+                <div class="carousel-item active">
+                    <img src="{{ property.image1.url }}" class="d-block w-100" alt="Фото 1">
+                </div>
+                {% endif %}
+                {% if property.image2 %}
+                <div class="carousel-item {% if not property.image1 %}active{% endif %}">
+                    <img src="{{ property.image2.url }}" class="d-block w-100" alt="Фото 2">
+                </div>
+                {% endif %}
+                {% if property.image3 %}
+                <div class="carousel-item {% if not property.image1 and not property.image2 %}active{% endif %}">
+                    <img src="{{ property.image3.url }}" class="d-block w-100" alt="Фото 3">
+                </div>
+                {% endif %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h2>{{ property.address }}</h2>
+        <p><strong>Тип сделки:</strong> {{ property.get_deal_type_display }}</p>
+        <p><strong>Комнат:</strong> {{ property.rooms }}</p>
+        <p><strong>Площадь:</strong> {{ property.area }} м²</p>
+        <p><strong>Цена:</strong> {{ property.price }} сум</p>
+        <p><strong>Описание:</strong> {{ property.description }}</p>
+        {% if user.userprofile.role == 'buyer' %}
+        <a href="{% url 'leave_request' property.id %}" class="btn btn-accent mt-3">Оставить заявку</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
